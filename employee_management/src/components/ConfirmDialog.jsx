@@ -8,8 +8,8 @@ export default function ConfirmDialog({ open, title, message, onConfirm, onCance
         <h3 className="text-lg font-semibold">{title}</h3>
         <p className="mt-2 text-sm text-gray-700">{message}</p>
         <div className="mt-4 flex justify-end gap-2">
-          <button onClick={onCancel} className="px-3 py-1 rounded border">Cancel</button>
-          <button onClick={onConfirm} className="px-3 py-1 rounded bg-red-600 text-white">Delete</button>
+          <button onClick={onCancel} className="px-3 py-1 rounded border cursor-pointer">Cancel</button>
+          <button onClick={onConfirm} className="px-3 py-1 rounded bg-red-600 text-white cursor-pointer">Delete</button>
         </div>
       </div>
     </div>

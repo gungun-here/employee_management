@@ -60,10 +60,10 @@ export default function EmployeeModal({ open, onClose, onSubmit, initial }) {
           </label>
 
           <div className="flex justify-end gap-2 mt-2">
-            <button type="button" onClick={onClose} className="px-3 py-2 border rounded">
+            <button type="button" onClick={onClose} className="px-3 py-2 border rounded cursor-pointer">
               Cancel
             </button>
-            <button type="submit" className="px-3 py-2 rounded bg-blue-600 text-white">
+            <button type="submit" className="px-3 py-2 rounded bg-blue-600 text-white cursor-pointer">
               Save
             </button>
           </div>
