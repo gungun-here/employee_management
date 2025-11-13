@@ -1,0 +1,1 @@
+export const ROLE_OPTIONS = ["Admin", "Manager", "Developer", "HR", "Intern"];
