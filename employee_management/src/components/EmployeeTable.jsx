@@ -232,7 +232,6 @@ export default function EmployeeTable() {
           </div>
         </div>
 
-        {/* Modals */}
         <EmployeeModal
           open={modalOpen}
           onClose={() => setModalOpen(false)}
