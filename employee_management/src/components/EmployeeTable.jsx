@@ -86,7 +86,6 @@ export default function EmployeeTable() {
 
   return (
     <div className="p-4 sm:p-6 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 min-h-screen text-gray-900">
-      {/* Header */}
       <header className="pb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-3xl font-bold text-white flex items-center gap-3 drop-shadow-md">
           <FaUsers className="w-8 h-8 sm:w-10 sm:h-10 text-blue-200" />
@@ -94,9 +93,7 @@ export default function EmployeeTable() {
         </h1>
       </header>
 
-      {/* Main Card */}
       <div className="bg-white/90 backdrop-blur-sm p-4 sm:p-6 rounded-2xl shadow-xl border border-white/20">
-        {/* Top Controls */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
           <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
             Employees
@@ -109,7 +106,6 @@ export default function EmployeeTable() {
           </button>
         </div>
 
-        {/* Filters */}
         <SearchFilterSort
           q={q}
           setQ={setQ}
@@ -122,7 +118,6 @@ export default function EmployeeTable() {
           roleOptions={ROLE_OPTIONS}
         />
 
-        {/* Table / Cards */}
         <div className="mt-4">
           {status === "loading" && <LoadingSpinner />}
 
@@ -138,7 +133,6 @@ export default function EmployeeTable() {
             </div>
           )}
 
-          {/* ===== MOBILE: CARD VIEW ===== */}
           <div className="md:hidden grid grid-cols-1 gap-4 mt-3">
             {filtered.map((e) => (
               <div
@@ -182,7 +176,6 @@ export default function EmployeeTable() {
             )}
           </div>
 
-          {/* ===== DESKTOP: TABLE VIEW ===== */}
           <div className="hidden md:block overflow-x-auto mt-4 rounded-xl border border-gray-200 shadow-sm">
             <table className="min-w-full bg-white text-sm sm:text-base">
               <thead className="bg-gradient-to-r from-blue-600 to-blue-500 text-white">
@@ -212,14 +205,14 @@ export default function EmployeeTable() {
                       <div className="flex justify-center gap-3">
                         <button
                           onClick={() => openEdit(e)}
-                          className="text-blue-600 hover:text-blue-800 p-1 transition-colors"
+                          className="text-blue-600 hover:text-blue-800 p-1 transition-colors cursor-pointer"
                           title="Edit"
                         >
                           <MdEdit size={20} />
                         </button>
                         <button
                           onClick={() => onDeleteClick(e.id)}
-                          className="text-red-600 hover:text-red-800 p-1 transition-colors"
+                          className="text-red-600 hover:text-red-800 p-1 transition-colors cursor-pointer"
                           title="Delete"
                         >
                           <MdDelete size={20} />
