@@ -12,7 +12,7 @@ export async function fetchEmployeesApi() {
     id: u.id,
     name: u.name,
     email: u.email,
-    role: "Developer" // fake role — modify as needed
+    role: "Developer" 
   }));
 }
 

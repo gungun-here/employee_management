@@ -1,4 +1,3 @@
-import React from "react";
 
 export default function ConfirmDialog({ open, title, message, onConfirm, onCancel }) {
   if (!open) return null;

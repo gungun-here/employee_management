@@ -35,7 +35,7 @@ const employeesSlice = createSlice({
   name: "employees",
   initialState: {
     items: [],
-    status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
+    status: "idle",
     error: null,
     lastActionSuccess: null
   },
@@ -46,7 +46,7 @@ const employeesSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      // fetch
+
       .addCase(fetchEmployees.pending, (state) => {
         state.status = "loading";
         state.error = null;
@@ -60,7 +60,6 @@ const employeesSlice = createSlice({
         state.error = action.error.message;
       })
 
-      // add
       .addCase(addEmployee.pending, (state) => {
         state.status = "loading";
         state.error = null;
@@ -75,7 +74,6 @@ const employeesSlice = createSlice({
         state.error = action.error.message;
       })
 
-      // update
       .addCase(updateEmployee.pending, (state) => {
         state.status = "loading";
         state.error = null;
@@ -91,7 +89,6 @@ const employeesSlice = createSlice({
         state.error = action.error.message;
       })
 
-      // delete
       .addCase(deleteEmployee.pending, (state) => {
         state.status = "loading";
         state.error = null;

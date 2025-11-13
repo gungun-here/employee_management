@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchEmployees,
@@ -85,28 +85,31 @@ export default function EmployeeTable() {
   }, [items, q, role, sortBy, sortDir]);
 
   return (
-    <div className="p-5 bg-[var(--blue)] min-h-screen w-full">
-      <header>
-        <div className="pb-4">
-          <h1 className="text-2xl font-bold text-white flex gap-4"><FaUsers className="w-10 h-10" />
-            Employee Management Portal
-          </h1>
-        </div>
+    <div className="p-4 sm:p-6 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 min-h-screen text-gray-900">
+      {/* Header */}
+      <header className="pb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <h1 className="text-3xl font-bold text-white flex items-center gap-3 drop-shadow-md">
+          <FaUsers className="w-8 h-8 sm:w-10 sm:h-10 text-blue-200" />
+          Employee Management Portal
+        </h1>
       </header>
 
-      <div className="bg-gray-50 p-5 rounded-xl">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Employees</h2>
-          <div className="flex gap-2">
-            <button
-              onClick={openAdd}
-              className="px-3 py-2 rounded bg-green-600 text-white cursor-pointer hover:bg-green-700"
-            >
-              + Add
-            </button>
-          </div>
+      {/* Main Card */}
+      <div className="bg-white/90 backdrop-blur-sm p-4 sm:p-6 rounded-2xl shadow-xl border border-white/20">
+        {/* Top Controls */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
+            Employees
+          </h2>
+          <button
+            onClick={openAdd}
+            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 text-white font-medium hover:from-green-600 hover:to-emerald-700 transition-all w-full sm:w-auto shadow-sm hover:shadow-md cursor-pointer"
+          >
+            + Add Employee
+          </button>
         </div>
 
+        {/* Filters */}
         <SearchFilterSort
           q={q}
           setQ={setQ}
@@ -119,52 +122,107 @@ export default function EmployeeTable() {
           roleOptions={ROLE_OPTIONS}
         />
 
+        {/* Table / Cards */}
         <div className="mt-4">
           {status === "loading" && <LoadingSpinner />}
 
           {status === "failed" && (
-            <div className="p-4 bg-red-50 text-red-700 rounded">{error}</div>
+            <div className="p-4 bg-red-100 text-red-800 rounded-lg border border-red-300">
+              {error}
+            </div>
           )}
 
           {lastActionSuccess && (
-            <div className="p-3 bg-green-50 border border-green-200 rounded text-green-800 my-3">
+            <div className="p-3 bg-green-100 border border-green-200 rounded-lg text-green-800 my-3 text-center sm:text-left">
               {lastActionSuccess}
             </div>
           )}
 
-          <div className="overflow-x-auto mt-2">
-            <table className="min-w-full bg-white border rounded">
-              <thead>
-                <tr className="text-left">
-                  <th className="px-4 py-2 border-b">ID</th>
-                  <th className="px-4 py-2 border-b">Name</th>
-                  <th className="px-4 py-2 border-b">Email</th>
-                  <th className="px-4 py-2 border-b">Role</th>
-                  <th className="px-4 py-2 border-b">Actions</th>
+          {/* ===== MOBILE: CARD VIEW ===== */}
+          <div className="md:hidden grid grid-cols-1 gap-4 mt-3">
+            {filtered.map((e) => (
+              <div
+                key={e.id}
+                className="bg-white rounded-xl p-4 shadow-md border border-gray-100 hover:shadow-lg transition-all"
+              >
+                <div className="flex justify-between items-start mb-2">
+                  <div>
+                    <h3 className="font-semibold text-lg">{e.name}</h3>
+                    <p className="text-sm text-gray-500">{e.email}</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => openEdit(e)}
+                      className="p-2 rounded-lg bg-blue-100 hover:bg-blue-200 text-blue-700 transition-all"
+                    >
+                      <MdEdit size={18} />
+                    </button>
+                    <button
+                      onClick={() => onDeleteClick(e.id)}
+                      className="p-2 rounded-lg bg-red-100 hover:bg-red-200 text-red-700 transition-all"
+                    >
+                      <MdDelete size={18} />
+                    </button>
+                  </div>
+                </div>
+                <div className="text-sm text-gray-700 mt-2">
+                  <span className="font-medium text-gray-600">Role:</span>{" "}
+                  {e.role}
+                </div>
+                <div className="text-xs text-gray-400 mt-1">
+                  Employee ID: {e.id}
+                </div>
+              </div>
+            ))}
+
+            {filtered.length === 0 && status === "succeeded" && (
+              <div className="p-4 text-center text-gray-500">
+                No employees found.
+              </div>
+            )}
+          </div>
+
+          {/* ===== DESKTOP: TABLE VIEW ===== */}
+          <div className="hidden md:block overflow-x-auto mt-4 rounded-xl border border-gray-200 shadow-sm">
+            <table className="min-w-full bg-white text-sm sm:text-base">
+              <thead className="bg-gradient-to-r from-blue-600 to-blue-500 text-white">
+                <tr>
+                  <th className="px-4 py-3 text-left font-semibold">ID</th>
+                  <th className="px-4 py-3 text-left font-semibold">Name</th>
+                  <th className="px-4 py-3 text-left font-semibold">Email</th>
+                  <th className="px-4 py-3 text-left font-semibold">Role</th>
+                  <th className="px-4 py-3 text-center font-semibold">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                {filtered.map((e) => (
-                  <tr key={e.id} className="hover:bg-gray-50">
-                    <td className="px-4 py-2 border-b">{e.id}</td>
-                    <td className="px-4 py-2 border-b">{e.name}</td>
-                    <td className="px-4 py-2 border-b">{e.email}</td>
-                    <td className="px-4 py-2 border-b">{e.role}</td>
-                    <td className="px-4 py-2 border-b">
-                      <div className="flex gap-4">
+                {filtered.map((e, i) => (
+                  <tr
+                    key={e.id}
+                    className={`${
+                      i % 2 === 0 ? "bg-gray-50" : "bg-white"
+                    } hover:bg-blue-50 transition-colors`}
+                  >
+                    <td className="px-4 py-2">{e.id}</td>
+                    <td className="px-4 py-2">{e.name}</td>
+                    <td className="px-4 py-2">{e.email}</td>
+                    <td className="px-4 py-2">{e.role}</td>
+                    <td className="px-4 py-2 text-center">
+                      <div className="flex justify-center gap-3">
                         <button
                           onClick={() => openEdit(e)}
-                          className="text-gray-600 hover:text-blue-600 transition-colors cursor-pointer"
+                          className="text-blue-600 hover:text-blue-800 p-1 transition-colors"
                           title="Edit"
                         >
-                          <MdEdit size={22} />
+                          <MdEdit size={20} />
                         </button>
                         <button
                           onClick={() => onDeleteClick(e.id)}
-                          className="text-gray-600 hover:text-red-600 transition-colors cursor-pointer"
+                          className="text-red-600 hover:text-red-800 p-1 transition-colors"
                           title="Delete"
                         >
-                          <MdDelete size={22} />
+                          <MdDelete size={20} />
                         </button>
                       </div>
                     </td>
@@ -181,6 +239,7 @@ export default function EmployeeTable() {
           </div>
         </div>
 
+        {/* Modals */}
         <EmployeeModal
           open={modalOpen}
           onClose={() => setModalOpen(false)}
